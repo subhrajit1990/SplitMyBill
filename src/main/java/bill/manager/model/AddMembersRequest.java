@@ -21,7 +21,7 @@ public class AddMembersRequest {
 	@ApiModelProperty(example = "Subhrajit", position = 1, required = true, value = "${SplitBillRequest.groupId.value}")
 	private String groupId;
 	
-	@JsonProperty("members")
+	@JsonProperty("groupMembers")
 	private List<Members> members = new ArrayList<>();
 
 	public String getGroupId() {
