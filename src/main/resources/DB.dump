@@ -23,6 +23,16 @@ CREATE TABLE `split_add_members` (
   PRIMARY KEY (`group_id`,`member_acct_number`)
 ); commit;
 
+CREATE TABLE `split_bill` (
+  `group_id` int(11) NOT NULL ,
+  `bill_id` varchar(45) NOT NULL,
+  `channel` varchar(45) NOT NULL,
+  `updated_dt` timestamp NULL DEFAULT NULL,
+  `created_dt` timestamp NULL DEFAULT NULL,
+  `master_txn_no` varchar(45) NOT NULL,
+  `bill` LONGTEXT NOT NULL,
+  PRIMARY KEY (`group_id`,`bill_id`)
+); commit;
 
 /* HEROKU */
 
@@ -60,3 +70,14 @@ set transaction read write;
   PRIMARY KEY (group_id,member_acct_number)
 ); commit;
   
+  
+ CREATE TABLE `split_bill` (
+  `group_id` int(11) NOT NULL ,
+  `bill_id` varchar(45) NOT NULL,
+  `channel` varchar(45) NOT NULL,
+  `updated_dt` timestamp NULL DEFAULT NULL,
+  `created_dt` timestamp NULL DEFAULT NULL,
+  `master_txn_no` varchar(45) NOT NULL,
+  `bill` TEXT NOT NULL,
+  PRIMARY KEY (`group_id`,`bill_id`)
+); commit;
