@@ -70,14 +70,16 @@ set transaction read write;
   PRIMARY KEY (group_id,member_acct_number)
 ); commit;
   
+  begin;
+set transaction read write;
   
- CREATE TABLE `split_bill` (
-  `group_id` int(11) NOT NULL ,
-  `bill_id` varchar(45) NOT NULL,
-  `channel` varchar(45) NOT NULL,
-  `updated_dt` timestamp NULL DEFAULT NULL,
-  `created_dt` timestamp NULL DEFAULT NULL,
-  `master_txn_no` varchar(45) NOT NULL,
-  `bill` TEXT NOT NULL,
-  PRIMARY KEY (`group_id`,`bill_id`)
+ CREATE TABLE split_bill (
+  group_id int NOT NULL ,
+  bill_id varchar(45) NOT NULL,
+  channel varchar(45) NOT NULL,
+  updated_dt timestamp NULL DEFAULT NULL,
+  created_dt timestamp NULL DEFAULT NULL,
+  master_txn_no varchar(45) NOT NULL,
+  bill TEXT NOT NULL,
+  PRIMARY KEY (group_id,bill_id)
 ); commit;
