@@ -426,7 +426,7 @@ public class BillManagerService implements IBillManagerService {
 
 		try {
 			fetchGroupsData = addGroup
-					.findByCreatorAccountNumberOrderByCreatedDtAsc(fetchGroupsRequest.getCreatorAccountNumber());
+					.findByCreatorAccountNumberOrderByCreatedDtDesc(fetchGroupsRequest.getCreatorAccountNumber());
 			logger.info("fetchGroups :: " + fetchGroupsData);
 
 			if (!fetchGroupsData.isEmpty()) {
