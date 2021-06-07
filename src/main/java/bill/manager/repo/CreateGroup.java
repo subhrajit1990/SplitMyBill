@@ -19,7 +19,7 @@ public interface CreateGroup extends CrudRepository<CreateGroupDomain,String> {
 	 * @param creatorAccountNumber
 	 * @return 
 	 */
-	ArrayList<CreateGroupDomain> findByCreatorAccountNumberOrderByCreatedDtAsc(String creatorAccountNumber);
+	ArrayList<CreateGroupDomain> findByCreatorAccountNumberOrderByCreatedDtDesc(String creatorAccountNumber);
 
 
 }
