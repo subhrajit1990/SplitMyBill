@@ -293,7 +293,7 @@ public class BillManagerController {
 	public String deletAllAppData() {
 		logger.info("Deletion for all data started");
 		try {
-			miscellaneousService.deleteAllData();
+			billManagerService.deleteAllData();
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Exception occurred during Deletion for all data ");
