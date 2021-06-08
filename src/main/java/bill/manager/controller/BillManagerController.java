@@ -283,5 +283,23 @@ public class BillManagerController {
 		return new ResponseEntity<>(addMembersResponseWrapper, httpStatus);
 
 	}
+	
+	@ApiResponses({ @ApiResponse(code = 200, message = "deleteAllData API reachable"),
+			@ApiResponse(code = 408, message = "Service Timed Out"),
+			@ApiResponse(code = 500, message = "Internal Server Error"),
+			@ApiResponse(code = 404, message = "deleteAllData API not reachable") })
+	@ApiOperation(value = "deleteAllData", notes = "Delete All Data")
+	@GetMapping(value = "/deleteAllAppData", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String deletAllAppData() {
+		logger.info("Deletion for all data started");
+		try {
+			miscellaneousService.deleteAllData();
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Exception occurred during Deletion for all data ");
+		}
+		return "Hellow";
+
+	}
 
 }
