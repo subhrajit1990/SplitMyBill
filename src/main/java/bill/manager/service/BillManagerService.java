@@ -460,5 +460,16 @@ public class BillManagerService implements IBillManagerService {
 		logger.info("Exiting the fetch groups  :: " + fetchGroups.toString());
 		return fetchGroups;
 	}
+	
+	/**
+	 * 
+	 */
+	public void deleteAllData() {
+		logger.info("Deletion started");
+		addGroup.deleteAll();
+		addMembers.deleteAll();
+		createBill.deleteAll();
+		logger.info("Deletion ends");
+	}
 
 }
