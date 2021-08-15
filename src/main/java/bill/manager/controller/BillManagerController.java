@@ -28,12 +28,16 @@ import bill.manager.model.CreateGroupResponseWrapper;
 import bill.manager.model.DeleteExpensesRequestWrapper;
 import bill.manager.model.DeleteExpensesResponse;
 import bill.manager.model.DeleteExpensesResponseWrapper;
+import bill.manager.model.FetchCardsRequestWrapper;
 import bill.manager.model.FetchExpensesRequestWrapper;
 import bill.manager.model.FetchGroupsRequestWrapper;
 import bill.manager.model.FetchGroupsResponse;
 import bill.manager.model.FetchGroupsResponseWrapper;
+import bill.manager.model.GameCardsListResponse;
+import bill.manager.model.GameCardsResponseWrapper;
 import bill.manager.model.ResponseHeader;
 import bill.manager.service.BillManagerService;
+import bill.manager.service.MiscellaneousService;
 import bill.manager.utils.AddBillException;
 import bill.manager.utils.CommonUtils;
 import bill.manager.utils.commonConstants;
@@ -57,6 +61,9 @@ public class BillManagerController {
 
 	@Autowired
 	private BillManagerService billManagerService;
+	
+	@Autowired
+	private MiscellaneousService miscellaneousService;
 
 	@ApiResponses({ @ApiResponse(code = 200, message = "Biller API reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
@@ -301,5 +308,45 @@ public class BillManagerController {
 		return "Hellow";
 
 	}
+	
+	
+	
+	@ApiResponses({ @ApiResponse(code = 200, message = "Get Cards API is reachable"),
+		@ApiResponse(code = 408, message = "Service Timed Out"),
+		@ApiResponse(code = 500, message = "Internal Server Error"),
+		@ApiResponse(code = 404, message = "Get Cards API is not reachable") })
+@ApiOperation(value = "Get Cards", notes = "Get Cards")
+@PostMapping(value = "/fetchCards",  consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+public ResponseEntity<GameCardsResponseWrapper> getCards(
+		
+		@RequestBody FetchCardsRequestWrapper fetchCardsrequestWrapper,
+		@RequestHeader("masterTxnRefNo") String masterTxnRefNo,
+		@RequestHeader("channel") String channel) {
+	logger.info("Started the execution for the get cards request with masterTxnRefNo :: " + masterTxnRefNo);
+	HttpStatus httpStatus = null;
+	httpStatus = HttpStatus.OK;
+	ResponseHeader responseHeader = new ResponseHeader();
+	GameCardsResponseWrapper gameCardsResponseWrapper = new GameCardsResponseWrapper();
+	GameCardsListResponse gameCardsResponse = new GameCardsListResponse();
+	try {
+		gameCardsResponse = miscellaneousService.fetchCards(channel, masterTxnRefNo);
+		if (gameCardsResponse.getGameCardResponse().isEmpty()) {
+
+			CommonUtils.generateHeaderForNoResult(responseHeader);
+
+		} else {
+			CommonUtils.generateHeaderForSuccess(responseHeader);
+			gameCardsResponseWrapper.setGameCardListResponse(gameCardsResponse);
+		}
+
+	} catch (Exception e) {
+		logger.error("exception happened during get cards service execution :: " + e.getStackTrace());
+		CommonUtils.generateHeaderForGenericError(responseHeader);
+	}
+	gameCardsResponseWrapper.setResponseHeader(responseHeader);
+	logger.info("Finished the execution for the get cards request with masterTxnRefNo :: " + masterTxnRefNo);
+	return new ResponseEntity<>(gameCardsResponseWrapper, httpStatus);
+
+}
 
 }
