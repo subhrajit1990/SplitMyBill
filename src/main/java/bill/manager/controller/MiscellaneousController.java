@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +20,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import bill.manager.model.FetchCardsRequestWrapper;
 import bill.manager.model.GameCardsListResponse;
 import bill.manager.model.GameCardsResponseWrapper;
 import bill.manager.model.ResponseHeader;
@@ -62,8 +65,11 @@ public class MiscellaneousController {
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Get Cards API is not reachable") })
 	@ApiOperation(value = "Get Cards", notes = "Get Cards")
-	@GetMapping(value = "/fetchCards", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<GameCardsResponseWrapper> getCards(@RequestHeader("masterTxnRefNo") String masterTxnRefNo,
+	@PostMapping(value = "/fetchCards",  consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<GameCardsResponseWrapper> getCards(
+			
+			@RequestBody FetchCardsRequestWrapper fetchCardsrequestWrapper,
+			@RequestHeader("masterTxnRefNo") String masterTxnRefNo,
 			@RequestHeader("channel") String channel) {
 		logger.info("Started the execution for the get cards request with masterTxnRefNo :: " + masterTxnRefNo);
 		HttpStatus httpStatus = null;
