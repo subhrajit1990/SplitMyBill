@@ -33,8 +33,8 @@ import bill.manager.utils.CommonUtils;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/")
-@Api(tags = "Miscellaneous", value = "/api/")
+@RequestMapping("/Misc/api/")
+@Api(tags = "Miscellaneous", value = "/Misc/api/")
 public class MiscellaneousController {
 
 	private static final Logger logger = Logger.getLogger(MiscellaneousController.class);
