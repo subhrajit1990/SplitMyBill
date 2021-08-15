@@ -316,7 +316,7 @@ public class BillManagerController {
 		@ApiResponse(code = 500, message = "Internal Server Error"),
 		@ApiResponse(code = 404, message = "Get Cards API is not reachable") })
 @ApiOperation(value = "Get Cards", notes = "Get Cards")
-@PostMapping(value = "/fetchCards",  consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@PostMapping(value = "/getCards",  consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public ResponseEntity<GameCardsResponseWrapper> getCards(
 		
 		@RequestBody FetchCardsRequestWrapper fetchCardsrequestWrapper,
