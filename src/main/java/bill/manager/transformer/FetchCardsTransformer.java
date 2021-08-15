@@ -35,7 +35,7 @@ public class FetchCardsTransformer extends HystrixCommand<FetchCardsTransformerR
 	protected FetchCardsTransformerResponse run() throws Exception {
 		System.out.println("calling this service");
 		logger.info("calling this service");
-		String uri = "";
+		String uri = "https://nanananinano.herokuapp.com/Misc/api/fetchCards";
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
 		JSONObject hystrixFinalPayload = getpayload();
