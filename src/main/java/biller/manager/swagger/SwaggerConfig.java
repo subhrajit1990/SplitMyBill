@@ -32,7 +32,7 @@ public class SwaggerConfig {
     {
         return new ApiInfoBuilder().title("Bill Manager Services").description("Bill Manager Services")
                 .contact(
-                        new Contact("Subhrajit", "i-exceed.com", "Subhrajitsahu1990@gmail.com"))
+                        new Contact("Subhrajit", " Sahu", "Subhrajitsahu1990@gmail.com"))
                 .license("Proprietary").version("1.0.0").build();
     }
 }
