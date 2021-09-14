@@ -5,7 +5,6 @@ package bill.manager.controller;
 
 import org.apache.log4j.Logger;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,6 +37,7 @@ import bill.manager.model.FetchGroupsResponseWrapper;
 import bill.manager.model.GameCardsListResponse;
 import bill.manager.model.GameCardsResponseWrapper;
 import bill.manager.model.ResponseHeader;
+import bill.manager.model.Status;
 import bill.manager.service.BillManagerService;
 import bill.manager.service.MiscellaneousService;
 import bill.manager.utils.AddBillException;
@@ -73,12 +73,12 @@ public class BillManagerController {
 			@ApiResponse(code = 404, message = "Biller API not reachable") })
 	@ApiOperation(value = "Status", notes = "Heloow")
 	@GetMapping(value = "/status", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<JSONObject> serviceStatus() throws JSONException {
+	public ResponseEntity<Status> serviceStatus() throws JSONException {
 		HttpStatus httpStatus = null;
 		httpStatus = HttpStatus.OK;
-		JSONObject newJsonObject = new JSONObject();
-		newJsonObject.put("msg", "Welcome");
-		return new ResponseEntity<>(newJsonObject, httpStatus);
+		Status status = new Status();
+		status.setStatusValue("Welcome");
+		return new ResponseEntity<>(status, httpStatus);
 
 	}
 
