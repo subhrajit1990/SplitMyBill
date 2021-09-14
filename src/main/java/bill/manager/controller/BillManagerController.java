@@ -73,7 +73,7 @@ public class BillManagerController {
 			@ApiResponse(code = 404, message = "Biller API not reachable") })
 	@ApiOperation(value = "Status", notes = "Heloow")
 	@GetMapping(value = "/status", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> serviceStatus() throws JSONException {
+	public ResponseEntity<JSONObject> serviceStatus() throws JSONException {
 		HttpStatus httpStatus = null;
 		httpStatus = HttpStatus.OK;
 		JSONObject newJsonObject = new JSONObject();
