@@ -26,6 +26,7 @@ import bill.manager.model.ToDoFetchResponse;
 import bill.manager.model.ToDoFetchResponseWrapper;
 import bill.manager.model.ToDoResponse;
 import bill.manager.model.ToDoResponseWrapper;
+import bill.manager.model.ToDoUpdateRequestWrapper;
 import bill.manager.service.ToDoService;
 import bill.manager.utils.CommonUtils;
 import bill.manager.utils.commonConstants;
@@ -178,6 +179,39 @@ public class ToDoController {
 		toDoFetchResponseWrapper.setResponseHeader(responseHeader);
 		logger.info("Finished the execution for the  fetch list request with masterTxnRefNo :: " + masterTxnRefNo);
 		return new ResponseEntity<>(toDoFetchResponseWrapper, httpStatus);
+
+	}
+
+	@ApiResponses({ @ApiResponse(code = 200, message = "To Do Update API is reachable"),
+			@ApiResponse(code = 408, message = "Service Timed Out"),
+			@ApiResponse(code = 500, message = "Internal Server Error"),
+			@ApiResponse(code = 404, message = "To Do Update API is not reachable") })
+	@ApiOperation(value = "To Do Update", notes = "To Do Update")
+	@PostMapping(value = "/toDoUpdate", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ToDoResponseWrapper> toDoUpdate(
+			@RequestBody ToDoUpdateRequestWrapper toDoUpdateRequestWrapper,
+			@RequestHeader("masterTxnRefNo") String masterTxnRefNo, @RequestHeader("channel") String channel) {
+		logger.info("Started the execution for the update list request with masterTxnRefNo :: " + masterTxnRefNo);
+		HttpStatus httpStatus = null;
+		httpStatus = HttpStatus.OK;
+		ResponseHeader responseHeader = new ResponseHeader();
+		ToDoResponseWrapper toDoUpdateResponseWrapper = new ToDoResponseWrapper();
+		ToDoResponse toDoUpdateResponse = new ToDoResponse();
+		try {
+			toDoUpdateResponse = toDoService.toDoListUpdate(toDoUpdateRequestWrapper.getToDoUpdateRequest(), channel,
+					masterTxnRefNo);
+			if (toDoUpdateResponse.getGroupStatus().equalsIgnoreCase(commonConstants.SUCCESS)) {
+				CommonUtils.generateHeaderForSuccess(responseHeader);
+			} else {
+				CommonUtils.generateHeaderForGenericError(responseHeader);
+			}
+		} catch (Exception e) {
+			logger.error("exception happened during update list service execution :: " + e.getStackTrace());
+			CommonUtils.generateHeaderForGenericError(responseHeader);
+		}
+		toDoUpdateResponseWrapper.setResponseHeader(responseHeader);
+		logger.info("Finished the execution for the update list request with masterTxnRefNo :: " + masterTxnRefNo);
+		return new ResponseEntity<>(toDoUpdateResponseWrapper, httpStatus);
 
 	}
 
