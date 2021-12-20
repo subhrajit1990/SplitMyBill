@@ -83,7 +83,7 @@ public class ToDoController {
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "To Do List Delete API is not reachable") })
-	@ApiOperation(value = "To Do Add", notes = "To Do List Delete")
+	@ApiOperation(value = "To Do List Delete", notes = "To Do List Delete")
 	@PostMapping(value = "/toDoListDelete", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ToDoResponseWrapper> toDoListDelete(
 			@RequestBody ToDoDeleteRequestWrapper toDoListDeleteRequestWrapper,
@@ -116,7 +116,7 @@ public class ToDoController {
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "To Do  Delete API is not reachable") })
-	@ApiOperation(value = "To Do Add", notes = "To Do  Delete")
+	@ApiOperation(value = "To Do Delete", notes = "To Do  Delete")
 	@PostMapping(value = "/toDoDelete", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ToDoResponseWrapper> toDoDelete(
 			@RequestBody ToDoDeleteRequestWrapper toDoDeleteRequestWrapper,
@@ -149,7 +149,7 @@ public class ToDoController {
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "To Do Fetch API is not reachable") })
-	@ApiOperation(value = "To Do Add", notes = "To Do Fetch")
+	@ApiOperation(value = "To Do Fetch", notes = "To Do Fetch")
 	@PostMapping(value = "/toDoFetch", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ToDoFetchResponseWrapper> toDoFetch(
 			@RequestBody ToDoFetchRequestWrapper toDoFetchRequestWrapper,
