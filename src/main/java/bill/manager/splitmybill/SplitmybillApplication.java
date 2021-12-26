@@ -31,7 +31,7 @@ public class SplitmybillApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("").allowedOrigins("https://sharemybill.herokuapp.com/");
+				registry.addMapping("/**").allowedOrigins("https://sharemybill.herokuapp.com/");
 			}
 		};
 	}
