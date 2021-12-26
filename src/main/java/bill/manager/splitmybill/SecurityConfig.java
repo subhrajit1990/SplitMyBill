@@ -11,9 +11,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * @author Troublem@ker
@@ -35,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception 
     {
         http
-         .csrf().disable().cors().configurationSource(configurationSource()).and()
+         .csrf().disable()
          .authorizeRequests().anyRequest().authenticated()
          .antMatchers(HttpMethod.GET, "/**")
          .hasRole("USER")
@@ -54,17 +51,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .password("{noop}"+passwd)
             .roles("USER");
     }
-    
-    
-    private CorsConfigurationSource configurationSource() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("*");
-        config.setAllowCredentials(true);
-        config.addAllowedHeader("X-Requested-With");
-        config.addAllowedHeader("Content-Type");
-        config.addAllowedMethod(HttpMethod.POST);
-        source.registerCorsConfiguration("/**", config);
-        return source;
-      }
 }
