@@ -6,7 +6,6 @@ package bill.manager.splitmybill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -34,9 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
          .csrf().disable()
          .authorizeRequests().anyRequest().authenticated()
-         .antMatchers(HttpMethod.GET, "/**")
-         .hasRole("USER")
-         .antMatchers(HttpMethod.POST, "/")
+         .antMatchers("/**")
          .hasRole("USER")
          .and()
          .httpBasic();
