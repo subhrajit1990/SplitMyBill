@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-
 /**
  * @author Troublem@ker
  */
@@ -20,34 +19,21 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	
 	@Value("${spring.security.user.name}")
-	private  String uid;
-	
+	private String uid;
+
 	@Value("${spring.security.user.password}")
-	private  String passwd;
-	
-	
+	private String passwd;
+
 	@Override
-    protected void configure(HttpSecurity http) throws Exception 
-    {
-        http
-         .csrf().disable()
-         .authorizeRequests().anyRequest().authenticated()
-         .antMatchers("/**")
-         .hasRole("USER")
-         .and()
-         .httpBasic();
-    }
-  
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) 
-            throws Exception 
-    {
-        auth.inMemoryAuthentication()
-            .withUser(uid)
-            .password("{noop}"+passwd)
-            .roles("USER");
-    }
-    
+	protected void configure(HttpSecurity http) throws Exception {
+		http.csrf().disable().authorizeRequests().anyRequest().authenticated().antMatchers("/**").permitAll().and()
+				.httpBasic();
+	}
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.inMemoryAuthentication().withUser(uid).password("{noop}" + passwd).roles("USER");
+	}
+
 }
