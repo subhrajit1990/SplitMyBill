@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +46,7 @@ public class MiscellaneousController {
 	@Autowired
 	private MiscellaneousService miscellaneousService;
 
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "deleteAllData API reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
@@ -63,6 +65,7 @@ public class MiscellaneousController {
 
 	}
 	
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Add Expenses API is reachable"),
 		@ApiResponse(code = 408, message = "Service Timed Out"),
 		@ApiResponse(code = 500, message = "Internal Server Error"),
