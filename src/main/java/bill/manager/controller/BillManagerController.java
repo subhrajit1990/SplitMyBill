@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -64,10 +65,11 @@ public class BillManagerController {
 
 	@Autowired
 	private BillManagerService billManagerService;
-	
+
 	@Autowired
 	private MiscellaneousService miscellaneousService;
 
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Biller API reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
@@ -83,6 +85,7 @@ public class BillManagerController {
 
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Create Group API is reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
@@ -117,6 +120,7 @@ public class BillManagerController {
 
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Fetch Group API is reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
@@ -153,6 +157,7 @@ public class BillManagerController {
 
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Add Expenses API is reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
@@ -189,6 +194,7 @@ public class BillManagerController {
 
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Fetch Expenses API is reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
@@ -215,7 +221,6 @@ public class BillManagerController {
 				CommonUtils.generateHeaderForNoResult(responseHeader);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("exception happened during fetch expenses service execution :: " + e.getStackTrace());
 			CommonUtils.generateHeaderForGenericError(responseHeader);
 		}
@@ -226,6 +231,7 @@ public class BillManagerController {
 
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Delete Expenses API is reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
@@ -253,7 +259,6 @@ public class BillManagerController {
 			}
 			deleteExpensesResponseWrapper.setDeleteExpensesResponse(deleteExpensesResponse);
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("exception happened during Delete expenses service execution :: " + e.getStackTrace());
 			CommonUtils.generateHeaderForGenericError(responseHeader);
 		}
@@ -264,6 +269,7 @@ public class BillManagerController {
 
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Add Members API is reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
@@ -298,6 +304,7 @@ public class BillManagerController {
 
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "deleteAllData API reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
@@ -309,51 +316,48 @@ public class BillManagerController {
 		try {
 			billManagerService.deleteAllData();
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Exception occurred during Deletion for all data ");
 		}
 		return "Hellow";
 
 	}
-	
-	
-	
+
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Get Cards API is reachable"),
-		@ApiResponse(code = 408, message = "Service Timed Out"),
-		@ApiResponse(code = 500, message = "Internal Server Error"),
-		@ApiResponse(code = 404, message = "Get Cards API is not reachable") })
-@ApiOperation(value = "Get Cards", notes = "Get Cards")
-@PostMapping(value = "/getCards",  consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-public ResponseEntity<GameCardsResponseWrapper> getCards(
-		
-		@RequestBody FetchCardsRequestWrapper fetchCardsrequestWrapper,
-		@RequestHeader("masterTxnRefNo") String masterTxnRefNo,
-		@RequestHeader("channel") String channel) {
-	logger.info("Started the execution for the get cards request with masterTxnRefNo :: " + masterTxnRefNo);
-	HttpStatus httpStatus = null;
-	httpStatus = HttpStatus.OK;
-	ResponseHeader responseHeader = new ResponseHeader();
-	GameCardsResponseWrapper gameCardsResponseWrapper = new GameCardsResponseWrapper();
-	GameCardsListResponse gameCardsResponse = new GameCardsListResponse();
-	try {
-		gameCardsResponse = miscellaneousService.fetchCards(channel, masterTxnRefNo);
-		if (gameCardsResponse.getGameCardResponse().isEmpty()) {
+			@ApiResponse(code = 408, message = "Service Timed Out"),
+			@ApiResponse(code = 500, message = "Internal Server Error"),
+			@ApiResponse(code = 404, message = "Get Cards API is not reachable") })
+	@ApiOperation(value = "Get Cards", notes = "Get Cards")
+	@PostMapping(value = "/getCards", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<GameCardsResponseWrapper> getCards(
 
-			CommonUtils.generateHeaderForNoResult(responseHeader);
+			@RequestBody FetchCardsRequestWrapper fetchCardsrequestWrapper,
+			@RequestHeader("masterTxnRefNo") String masterTxnRefNo, @RequestHeader("channel") String channel) {
+		logger.info("Started the execution for the get cards request with masterTxnRefNo :: " + masterTxnRefNo);
+		HttpStatus httpStatus = null;
+		httpStatus = HttpStatus.OK;
+		ResponseHeader responseHeader = new ResponseHeader();
+		GameCardsResponseWrapper gameCardsResponseWrapper = new GameCardsResponseWrapper();
+		GameCardsListResponse gameCardsResponse = new GameCardsListResponse();
+		try {
+			gameCardsResponse = miscellaneousService.fetchCards(channel, masterTxnRefNo);
+			if (gameCardsResponse.getGameCardResponse().isEmpty()) {
 
-		} else {
-			CommonUtils.generateHeaderForSuccess(responseHeader);
-			gameCardsResponseWrapper.setGameCardListResponse(gameCardsResponse);
+				CommonUtils.generateHeaderForNoResult(responseHeader);
+
+			} else {
+				CommonUtils.generateHeaderForSuccess(responseHeader);
+				gameCardsResponseWrapper.setGameCardListResponse(gameCardsResponse);
+			}
+
+		} catch (Exception e) {
+			logger.error("exception happened during get cards service execution :: " + e.getStackTrace());
+			CommonUtils.generateHeaderForGenericError(responseHeader);
 		}
+		gameCardsResponseWrapper.setResponseHeader(responseHeader);
+		logger.info("Finished the execution for the get cards request with masterTxnRefNo :: " + masterTxnRefNo);
+		return new ResponseEntity<>(gameCardsResponseWrapper, httpStatus);
 
-	} catch (Exception e) {
-		logger.error("exception happened during get cards service execution :: " + e.getStackTrace());
-		CommonUtils.generateHeaderForGenericError(responseHeader);
 	}
-	gameCardsResponseWrapper.setResponseHeader(responseHeader);
-	logger.info("Finished the execution for the get cards request with masterTxnRefNo :: " + masterTxnRefNo);
-	return new ResponseEntity<>(gameCardsResponseWrapper, httpStatus);
-
-}
 
 }
