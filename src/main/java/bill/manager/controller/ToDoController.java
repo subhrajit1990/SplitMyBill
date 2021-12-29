@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,6 +50,7 @@ public class ToDoController {
 	@Autowired
 	private ToDoService toDoService;
 
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "To Do API is reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
@@ -80,6 +82,7 @@ public class ToDoController {
 
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "To Do List Delete API is reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
@@ -113,6 +116,7 @@ public class ToDoController {
 
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "To Do  Delete API is reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
@@ -146,6 +150,7 @@ public class ToDoController {
 
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "To Do Fetch API is reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
@@ -182,6 +187,7 @@ public class ToDoController {
 
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@ApiResponses({ @ApiResponse(code = 200, message = "To Do Update API is reachable"),
 			@ApiResponse(code = 408, message = "Service Timed Out"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
