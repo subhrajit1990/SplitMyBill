@@ -22,6 +22,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import bill.manager.model.ContactMeRequestWrapper;
+import bill.manager.model.ContactMeResponseWrapper;
 import bill.manager.model.FileReplacerRequestWrapper;
 import bill.manager.model.FileReplacerResponse;
 import bill.manager.model.FileReplacerResponseWrapper;
@@ -29,7 +31,6 @@ import bill.manager.model.ResponseHeader;
 import bill.manager.service.MiscellaneousService;
 import bill.manager.utils.CommonUtils;
 import bill.manager.utils.FileReplacerException;
-
 
 /**
  * @author Troublem@ker
@@ -102,7 +103,34 @@ public ResponseEntity<FileReplacerResponseWrapper> fileReplacer(
 
 }
 
+@PreAuthorize("hasRole('USER')")
+@ApiResponses({ @ApiResponse(code = 200, message = "Contact me API is reachable"),
+		@ApiResponse(code = 408, message = "Service Timed Out"),
+		@ApiResponse(code = 500, message = "Internal Server Error"),
+		@ApiResponse(code = 404, message = "Contact me API is not reachable") })
+@ApiOperation(value = "Contact me", notes = "Contact me")
+@PostMapping(value = "/contactMe", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+public ResponseEntity<ContactMeResponseWrapper> contactMe(
+		@RequestBody ContactMeRequestWrapper contactMeRequestWrapper,
+		@RequestHeader("masterTxnRefNo") String masterTxnRefNo, @RequestHeader("channel") String channel)
+		 {
+	logger.info("Started the execution for the file replacer request with masterTxnRefNo :: " + masterTxnRefNo);
+	HttpStatus httpStatus = null;
+	httpStatus = HttpStatus.OK;
+	ResponseHeader responseHeader = new ResponseHeader();
+	ContactMeResponseWrapper contactMeResponseWrapper = new ContactMeResponseWrapper();
+	try {
+		miscellaneousService.contactMeService(contactMeRequestWrapper.getContactMeRequest(),masterTxnRefNo,channel);
+		CommonUtils.generateHeaderForSuccess(responseHeader);
+	} catch (Exception e) {
+		logger.error("exception happened during add expenses service execution :: " + e.getStackTrace());
+		CommonUtils.generateHeaderForGenericError(responseHeader);
+	}
+	contactMeResponseWrapper.setResponseHeader(responseHeader);
 
-	
+	logger.info("Finished the execution for the file replacer request with masterTxnRefNo :: " + masterTxnRefNo);
+	return new ResponseEntity<>(contactMeResponseWrapper, httpStatus);
+
+}
 
 }
