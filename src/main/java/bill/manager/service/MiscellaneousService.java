@@ -20,15 +20,20 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import bill.manager.domain.ContactMeDomain;
 import bill.manager.domain.GetCardsDomain;
+import bill.manager.model.ContactMeRequest;
 import bill.manager.model.FileReplacerRequest;
 import bill.manager.model.FileReplacerResponse;
 import bill.manager.model.GameCardResponse;
 import bill.manager.model.GameCardsListResponse;
 import bill.manager.repo.AddMembers;
+import bill.manager.repo.ContactMe;
 import bill.manager.repo.CreateBill;
 import bill.manager.repo.CreateGroup;
 import bill.manager.repo.FetchCards;
+import bill.manager.utils.CommonUtils;
+import bill.manager.utils.ContactMeException;
 
 /**
  * @author Troublem@ker
@@ -50,6 +55,9 @@ public class MiscellaneousService implements IMiscellaneousService {
 
 	@Autowired
 	private FetchCards fetchCards;
+
+	@Autowired
+	private ContactMe contactMe;
 
 	/**
 	 * 
@@ -100,11 +108,10 @@ public class MiscellaneousService implements IMiscellaneousService {
 	 */
 	public FileReplacerResponse fileReplace(FileReplacerRequest fileReplacerRequest, String channel,
 			String masterTxnRefNo) {
-		System.out.println("in coming");
 
 		try (FileReader file = new FileReader(fileReplacerRequest.getFirstFile());
 				BufferedReader reader = new BufferedReader((file));
-				FileWriter fos = new FileWriter(new File("/home/i-exceed.com/subhrajit.sahu/Desktop/TEST/OP"))) {
+				FileWriter fos = new FileWriter(new File("/PATH/"))) {
 
 			String line;
 			String replaceCriteria = fileReplacerRequest.getValidator();
@@ -118,8 +125,8 @@ public class MiscellaneousService implements IMiscellaneousService {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			logger.error("Error occurred :: " + e.toString());
 		}
-		System.out.println("out coming");
 		return null;
 	}
 
@@ -133,7 +140,7 @@ public class MiscellaneousService implements IMiscellaneousService {
 
 			String line = reader.readLine();
 			String[] replaceStrings = replaceCriteria.split(" ");
-			System.out.println(" line :: " + line + " older string " + oldString + "  new string ::" + newString);
+			logger.info(" line :: " + line + " older string " + oldString + "  new string ::" + newString);
 			while (line != null) {
 
 				Pattern p = Pattern.compile("\\b" + oldString + "\\b");
@@ -154,9 +161,36 @@ public class MiscellaneousService implements IMiscellaneousService {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			logger.error("Error occurred :: " + e.toString());
 
 		}
 		return myStringBuffer;
+	}
+
+	/**
+	 * @param contactMeRequest
+	 * @param masterTxnRefNo
+	 * @param channel
+	 * @throws ContactMeException 
+	 */
+	public void contactMeService(ContactMeRequest contactMeRequest, String masterTxnRefNo, String channel) throws ContactMeException  {
+
+		try {
+			ContactMeDomain contactMeDomain = new ContactMeDomain();
+			contactMeDomain.setChannel(channel);
+			contactMeDomain.setCreatedDt(CommonUtils.currentTime());
+			contactMeDomain.setEmail(contactMeRequest.getEmail());
+			contactMeDomain.setMasterTxnNo(masterTxnRefNo);
+			contactMeDomain.setName(contactMeRequest.getName());
+			contactMeDomain.setPhoneNumber(contactMeRequest.getPhoneNumber());
+			contactMeDomain.setMessage(contactMeRequest.getMessage());
+			contactMe.save(contactMeDomain);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Error occurred :: " + e.getStackTrace());
+			throw new ContactMeException("CON_ME", "Exception");
+		}
+
 	}
 
 }
