@@ -3,7 +3,6 @@
  */
 package bill.manager.splitmybill;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -33,19 +32,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().anyRequest().authenticated().antMatchers("/**").hasRole("USER").and().cors().configurationSource(corsConfigurationSource()).and()
-				.httpBasic();
+		http.csrf().disable().authorizeRequests().anyRequest().authenticated().antMatchers("/**").hasRole("USER").and()
+				.cors().configurationSource(corsConfigurationSource()).and().httpBasic();
 	}
 
-	
 	CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedMethod("*");
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration.applyPermitDefaultValues());
-        return source;
-    }
-	
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.addAllowedMethod("GET");
+		configuration.addAllowedMethod("POST");
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration.applyPermitDefaultValues());
+		return source;
+	}
+
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication().withUser(uid).password("{noop}" + passwd).roles("USER");
