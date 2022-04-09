@@ -35,6 +35,10 @@ public class ContactMeDomain extends CommonEntity implements Serializable{
 	@Column(name = "email")
 	private String email;
 
+	@Column(name = "subject")
+	private String subject;
+
+	
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	
@@ -75,6 +79,14 @@ public class ContactMeDomain extends CommonEntity implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 
 	public String getPhoneNumber() {
