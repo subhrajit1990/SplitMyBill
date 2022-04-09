@@ -181,6 +181,7 @@ public class MiscellaneousService implements IMiscellaneousService {
 			contactMeDomain.setCreatedDt(CommonUtils.currentTime());
 			contactMeDomain.setEmail(contactMeRequest.getEmail());
 			contactMeDomain.setMasterTxnNo(masterTxnRefNo);
+			contactMeDomain.setSubject(contactMeRequest.getSubject());
 			contactMeDomain.setName(contactMeRequest.getName());
 			contactMeDomain.setPhoneNumber(contactMeRequest.getPhoneNumber());
 			contactMeDomain.setMessage(contactMeRequest.getMessage());
