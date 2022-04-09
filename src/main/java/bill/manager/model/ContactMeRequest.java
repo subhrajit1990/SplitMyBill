@@ -32,6 +32,11 @@ public class ContactMeRequest {
 	@JsonProperty("message")
 	@ApiModelProperty(example = "Hellow", position = 4, required = true, value = "${SplitBillRequest.message.value}")
 	private String message;
+	
+	
+	@JsonProperty("subject")
+	@ApiModelProperty(example = "Queries", position = 5, required = true, value = "${SplitBillRequest.subject.value}")
+	private String subject;
 
 	public String getName() {
 		return name;
@@ -64,6 +69,15 @@ public class ContactMeRequest {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	
 	
 	
 	
