@@ -73,10 +73,11 @@ CREATE TABLE contact_me (
    `channel` varchar(45) NOT NULL,
    `name` varchar(500) NOT NULL,
    `email` varchar(500) NOT NULL,
+   `subject` varchar(500) NULL DEFAULT NULL,
    `phone_number` varchar(500) NOT NULL,
    `updated_dt` timestamp NULL DEFAULT NULL,
    `message` varchar(500) NOT NULL,
-  PRIMARY KEY (contactId)); commit;
+  PRIMARY KEY (id)); commit;
   
   
 
@@ -158,7 +159,7 @@ CREATE TABLE to_do_list (
 
 CREATE INDEX todo_id ON to_do_list (todo_id); commit;
 
-drop table contact_me;
+drop table contact_me;commit;
 CREATE TABLE contact_me (
    id SERIAL NOT NULL ,
    created_dt timestamp(0) NULL DEFAULT NULL,
@@ -166,10 +167,11 @@ CREATE TABLE contact_me (
    channel varchar(45) NOT NULL,
    name varchar(500) NOT NULL,
    email varchar(500) NOT NULL,
+   subject varchar(500) NULL DEFAULT NULL,
    phone_number varchar(500) NOT NULL,
   updated_dt timestamp(0) NULL DEFAULT NULL,
    message varchar(500) NOT NULL,
-  PRIMARY KEY (contactId)); commit;
-  CREATE INDEX contactId ON contact_me (contactId); commit;
+  PRIMARY KEY (id)); commit;
+  CREATE INDEX id ON contact_me (id); commit;
   
 
