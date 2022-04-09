@@ -63,11 +63,11 @@ ALTER TABLE `to_do_list`
 ADD `updated_dt` timestamp NULL DEFAULT NULL; commit;
 
 
-
+drop table contact_me;
 
 
 CREATE TABLE contact_me (
-   `contactId` int(11) NOT NULL AUTO_INCREMENT ,
+   `id` int(11) NOT NULL AUTO_INCREMENT ,
    `created_dt` timestamp NULL DEFAULT NULL,
    `master_txn_no` varchar(45) NOT NULL,
    `channel` varchar(45) NOT NULL,
@@ -158,9 +158,9 @@ CREATE TABLE to_do_list (
 
 CREATE INDEX todo_id ON to_do_list (todo_id); commit;
 
-
+drop table contact_me;
 CREATE TABLE contact_me (
-   contactId SERIAL NOT NULL ,
+   id SERIAL NOT NULL ,
    created_dt timestamp(0) NULL DEFAULT NULL,
    master_txn_no varchar(45) NOT NULL,
    channel varchar(45) NOT NULL,
